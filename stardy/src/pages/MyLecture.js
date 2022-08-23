@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 export default function MyLecture() {
     
-  ImgBox.defaultProps = { src: "https://img.youtube.com/vi/xRbPAVnqtcs/mqdefault.jpg" }
+  ImgBox.defaultProps = { src: "https://via.placeholder.com/140x100" }
 
 
   return (
