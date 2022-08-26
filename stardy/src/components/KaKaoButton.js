@@ -6,7 +6,7 @@ import kakaoimg from "../images/kakao.png";
 export default function KaKaoButton() {
   return (
     <KaKaoWrap>
-      <KaKaoBtn href="http://52.78.131.208:8080/oauth2/authorization/kakao">
+      <KaKaoBtn href="https://stardy.ga/oauth2/authorization/kakao?redirect_uri=http://stardy.cf">
         <Img src={kakaoimg} alt="kakao-login" />
       </KaKaoBtn>
     </KaKaoWrap>
