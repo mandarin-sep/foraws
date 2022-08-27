@@ -1,12 +1,12 @@
-import axios from "axios";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import axios from "axios";
 import kakaoimg from "../images/kakao.png";
 
 export default function KaKaoButton() {
   return (
     <KaKaoWrap>
-      <KaKaoBtn href="https://stardy.ga/oauth2/authorization/kakao?redirect_uri=http://stardy.cf">
+      <KaKaoBtn href="https://dokuny.blog/oauth2/authorization/kakao">
         <Img src={kakaoimg} alt="kakao-login" />
       </KaKaoBtn>
     </KaKaoWrap>
