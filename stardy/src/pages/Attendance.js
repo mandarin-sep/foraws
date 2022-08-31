@@ -49,7 +49,6 @@ export default function Attendance() {
       .catch((err) => console.log(err))
     }, [])
 
-    console.log(marks)
 
     return (
       <div style={{width: "505px", padding: "7%"}}>
