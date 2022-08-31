@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import NavHoverMenu from "../components/NavHoverMenu";
-
 const LinkItem = ({ active, children, to }) => (
   <Link
     to={to}
@@ -35,7 +34,8 @@ export default function Header(props) {
 
   if (
     locationNow.pathname.includes("admin") ||
-    locationNow.pathname.includes("classRoom")
+    locationNow.pathname.includes("classRoom") ||
+    locationNow.pathname.includes("error")
   )
     return null;
 

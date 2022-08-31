@@ -34,7 +34,9 @@ export default function AdminGamer() {
         setGamers(...gamers, response.data.data);
       })
       .catch((error) => {
-        console.log(error);
+        if (error.response.status === 401) {
+          document.location.href = "/error401";
+        }
       });
   }, []);
 
@@ -50,17 +52,12 @@ export default function AdminGamer() {
   };
 
   //axios Delete
-
   function deleteHandler(id) {
     setGamers(gamers.filter((e) => e.id !== id));
 
-    axios.delete(
-      `https://www.dokuny.blog/admin-management/gamers/${id}`,
-
-      {
-        headers: header,
-      }
-    );
+    axios.delete(`https://www.dokuny.blog/admin-management/gamers/${id}`, {
+      headers: header,
+    });
   }
 
   //Input 핸들러
@@ -214,7 +211,10 @@ export default function AdminGamer() {
               <DeleteBtn
                 type="button"
                 value="삭제"
-                onClick={() => deleteHandler(list.id)}
+                onClick={() => {
+                  console.log(list.id);
+                  deleteHandler(list.id);
+                }}
               />
             </ListWrap>
           </fieldset>
