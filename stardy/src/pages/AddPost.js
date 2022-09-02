@@ -48,44 +48,17 @@ export default function Addpost() {
               value="제출"
               onClick={(e) => {
                 e.preventDefault();
-
-                if (title !== "" && boardKind !== "" && content !== "") {
-                  console.log({
+                axios.post(
+                  "https://www.dokuny.blog/posts",
+                  {
                     title: title,
                     boardKind: boardKind,
                     content: content,
-                  });
-                  axios
-                    .post(
-                      "https://www.dokuny.blog/posts",
-                      {
-                        title: title,
-                        boardKind: boardKind,
-                        content: content,
-                      },
-
-                      {
-                        headers: header,
-                      },
-                      console.log({
-                        title: title,
-                        boardKind: boardKind,
-                        content: content,
-                      })
-                    )
-                    .then((res) => {
-                      document.location.href = "/post";
-                    })
-                    .catch((err) => console.log(err));
-                } else {
-                  if (title === "") {
-                    alert("제목을 입력해주세요");
-                  } else if (content === "") {
-                    alert("내용을 입력해주세요");
-                  } else if (boardKind === "") {
-                    alert("채널을 선택해 주세요");
+                  },
+                  {
+                    headers: header,
                   }
-                }
+                );
               }}
             ></SubmitBtn>
             <CancelBtn

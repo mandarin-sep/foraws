@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { BsCoin } from "react-icons/bs";
+import { useSelector, useDispatch } from "react-redux";
 import Page from "./Page";
 import axios from "axios";
+import { modal } from "../redux/loginSlice";
 
 export default function ProGamerLecture(props) {
   const [lectures, setLectures] = useState([]);
@@ -13,17 +15,12 @@ export default function ProGamerLecture(props) {
   const [indexOfFirstPost, setIndexOfFirstPost] = useState(0);
   const [currentPosts, setCurrentPosts] = useState(0);
   const { checkList } = props;
-
-  // useEffect(() => {
-  //   axios
-  //     .get("https://jsonplaceholder.typicode.com/photos")
-  //     .then((res) => setLectures(res.data));
-  // }, []);
-
+  const header = useSelector((state) => state.userinfo.value.header);
+  const dispatch = useDispatch();
   useEffect(() => {
-    axios
-      .get("https://www.dokuny.blog/course/courses")
-      .then((res) => setLectures(res.data.data.content));
+    axios.get("https://www.dokuny.blog/courses").then((res) => {
+      setLectures(res.data.data.content);
+    });
   }, []);
 
   useEffect(() => {
@@ -37,9 +34,35 @@ export default function ProGamerLecture(props) {
     setCurrentpage(e);
   };
 
+
+  function handleClick(e) {
+    const lectureId = e.currentTarget.id
+     axios.post(`https://www.dokuny.blog/courses/${lectureId}/unlock`,{}, {
+         headers: header
+     }).
+     then(()=>{
+       window.alert(`강의가 해금되었습니다! 마이페이지에서 확인 할 수 있습니다`)
+
+     }).
+     catch((err) => {
+       if(err.response.status === 500){
+         window.alert("이미 소지한 강의입니다 마이페이지에서 확인해주세요")
+       } else if (err.response.status === 401){
+         window.alert("먼저 로그인을 해주세요")
+       } else if(err.response.status === 403){
+         window.alert("포인트가 부족합니다")
+       }
+     })
+
+ }
+
   function lectureArea(data) {
     return (
-      <LectureArea key={data.id}>
+      <LectureArea
+        key={data.id}
+        onClick={handleClick}
+        id={data.id}
+      >
         <Thumbnail>
           <img src={data.thumbnailUrl} alt="thumblink" />
         </Thumbnail>
@@ -71,7 +94,12 @@ export default function ProGamerLecture(props) {
       </Wrap>
 
       {checkList.length === 0 ? (
-        <Page page={currentpage} count={count} setPage={setPage} />
+        <Page
+          page={currentpage}
+          count={count}
+          setPage={setPage}
+          postPerPage={postPerPage}
+        />
       ) : (
         <Page
           page={currentpage}
@@ -80,6 +108,7 @@ export default function ProGamerLecture(props) {
             currentPosts.filter((data) => checkList.includes(data.gamerName))
               .length
           }
+          postPerPage={postPerPage}
           setPage={setPage}
         />
       )}
@@ -92,7 +121,11 @@ const Wrap = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-between;
+  gap: 1%;
+
+  @media screen and (max-width: 800px) {
+    gap: 10%;
+  }
 `;
 
 const LectureArea = styled.div`
