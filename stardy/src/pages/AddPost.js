@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import styled from "styled-components";
@@ -47,18 +47,23 @@ export default function Addpost() {
               type="submit"
               value="제출"
               onClick={(e) => {
-                e.preventDefault();
-                axios.post(
-                  "https://www.dokuny.blog/posts",
-                  {
-                    title: title,
-                    boardKind: boardKind,
-                    content: content,
-                  },
-                  {
-                    headers: header,
-                  }
-                );
+                axios
+                  .post(
+                    "https://www.dokuny.blog/posts",
+                    {
+                      title: title,
+                      boardKind: boardKind,
+                      content: content,
+                    },
+
+                    {
+                      headers: header,
+                    }
+                  )
+                  .then((res) => {
+                    document.location.href = "/post";
+                  })
+                  .catch((err) => console.log(err));
               }}
             ></SubmitBtn>
             <CancelBtn
