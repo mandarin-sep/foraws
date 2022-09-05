@@ -1,9 +1,9 @@
 import styled from "styled-components"
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useSelector } from "react-redux";
 import { BsCoin } from "react-icons/bs";
-
+import { useSelector,useDispatch } from "react-redux";
+import { modal } from "../redux/loginSlice";
 
 
 
@@ -11,6 +11,7 @@ export default function Protoss(){
     const [lectures, setLectures] = useState([])
     const header = useSelector((state) => state.userinfo.value.header);
     const login = useSelector((state) => state.userinfo.value.login);
+    const dispatch = useDispatch();
 
     useEffect(() => {
       axios
@@ -30,27 +31,30 @@ export default function Protoss(){
     }
 
     function handleClick(e) {
-       const lectureId = e.currentTarget.id
-       if(login === false) return window.alert("로그인이 필요합니다.")
-        axios.post(`https://www.dokuny.blog/courses/${lectureId}/unlock`,{}, {
-            headers: header
-        }).
-        then(()=>{
-          window.alert(`강의가 해금되었습니다! 마이페이지에서 확인 할 수 있습니다`)
+      const lectureId  = e.currentTarget.id
 
-        }).
-        catch((err) => {
-          if(err.response.status === 500){
-            window.alert("이미 소지한 강의입니다 마이페이지에서 확인해주세요")
-          } else if (err.response.status === 401){
-            window.alert("먼저 로그인을 해주세요")
-          } else if(err.response.status === 403){
-            window.alert("포인트가 부족합니다")
-          }
-        })
-
-    }
-  
+      if(login === false) {
+        alert("로그인이 필요합니다.");
+        dispatch(modal(true));
+        e.preventDefault();
+       } else {
+         axios.post(`https://www.dokuny.blog/courses/${lectureId}/unlock`,{}, {
+           headers: header
+          }).
+          then(()=>{
+            window.alert(`강의가 해금되었습니다! 마이페이지에서 확인 할 수 있습니다`)
+            
+          }).
+          catch((err) => {
+            if(err.response.status === 500){
+              window.alert("이미 소지한 강의입니다 마이페이지에서 확인해주세요")
+            } else if(err.response.status === 403){
+              window.alert("포인트가 부족합니다")
+            }
+          })
+        }
+      }
+ 
 
     const levelVideo = lectures.map((data) => { 
         if(data.level === level){
