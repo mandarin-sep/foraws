@@ -11,8 +11,6 @@ export default function MyPage() {
     </Link>
   );
   const header = useSelector((state) => state.userinfo.value.header);
-
-  console.log(header);
   return (
 
     <Main>

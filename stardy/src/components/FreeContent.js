@@ -18,7 +18,6 @@ export default function FreeContent() {
     axios
       .get("https://www.dokuny.blog/posts?page=0&size=100000")
       .then((res) => {
-        console.log(res);
         setFreeBoard(
           res.data.data.content.filter((data) => data.boardKind === "free")
         );
