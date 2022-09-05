@@ -46,7 +46,7 @@ export default function HomeLecture() {
 
   function homeLayout(data) {
     return (
-      <GreenBox key={data.title} onClick={handleClick}>
+      <GreenBox key={data.title} onClick={handleClick} id={data.id}>
         <Img>
           <img src={data.thumbnailUrl} alt="강의" />
         </Img>
